@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "claude-desktop-importer"
+dynamic = ["version"]
+description = "Bring Claude Code CLI sessions into the Claude Desktop sidebar, with real titles and the right order."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [{name = "Leeiio"}]
+keywords = ["claude", "claude-code", "claude-desktop", "sessions"]
+classifiers = [
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/Leeiio/claude-desktop-importer"
+
+[project.scripts]
+claude-desktop-importer = "claude_desktop_importer.cli:main"
+
+[tool.setuptools]
+packages = ["claude_desktop_importer"]
+
+[tool.setuptools.dynamic]
+version = {attr = "claude_desktop_importer.__version__"}
