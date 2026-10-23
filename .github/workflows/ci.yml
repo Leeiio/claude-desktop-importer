@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:  # run by publish.yml before every release
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04  # oldest supported Python
+            python: "3.9"
+          - os: ubuntu-latest
+            python: "3.x"
+          - os: macos-latest  # the platform the tool is built for
+            python: "3.x"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m unittest discover -s tests -t . -v

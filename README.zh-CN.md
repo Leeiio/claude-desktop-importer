@@ -16,13 +16,21 @@ Claude Desktop 自带 **帮助 → 故障排除 → 导入 Claude Code CLI 会�
 
 ## 安装
 
-需要 Python 3.8 及以上，无第三方依赖。
+需要 Python 3.9 及以上，无第三方依赖。装了 [uv](https://docs.astral.sh/uv/) 的话，不用安装就能直接运行：
 
 ```bash
-pipx install git+https://github.com/Leeiio/claude-desktop-importer.git
+uvx claude-desktop-importer scan
 ```
 
-或者克隆后直接运行：
+也可以把命令安装到系统里：
+
+```bash
+uv tool install claude-desktop-importer     # 或者：pipx install claude-desktop-importer
+```
+
+以后升级用 `uv tool upgrade claude-desktop-importer`（或 `pipx upgrade claude-desktop-importer`）；`uvx claude-desktop-importer@latest` 则每次都运行最新版本。
+
+也可以从源码运行：
 
 ```bash
 git clone https://github.com/Leeiio/claude-desktop-importer.git
@@ -32,7 +40,7 @@ python3 -m claude_desktop_importer scan
 
 ## 用法
 
-不加 `--apply` 时，所有命令都只展示将要做什么，不写任何文件。
+下面的例子用的是安装后的命令；用 uvx 的话在前面加上 `uvx` 即可（`uvx claude-desktop-importer import --apply`）。不加 `--apply` 时，所有命令都只展示将要做什么，不写任何文件。
 
 ```bash
 claude-desktop-importer scan             # 哪些会话不在侧边栏里，以及跳过某些会话的原因
@@ -112,7 +120,7 @@ Claude Code 把每个会话存在 `~/.claude/projects/<文件夹>/<会话 ID>.js
 python3 -m unittest discover -s tests -t .
 ```
 
-测试会在临时目录里构造假的会话文件和侧边栏文件夹，不会读取你的真实数据。
+测试会在临时目录里构造假的会话文件和侧边栏文件夹，不会读取你的真实数据。新版本由 GitHub Actions 发布到 PyPI，流程见 [RELEASING.md](RELEASING.md)。
 
 ## 许可证
 

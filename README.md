@@ -1,6 +1,6 @@
 # claude-desktop-importer
 
-English | [简体中文](README.zh-CN.md)
+English | [简体中文](https://github.com/Leeiio/claude-desktop-importer/blob/main/README.zh-CN.md)
 
 Bring your Claude Code CLI sessions into the Claude Desktop sidebar: all of them, with their real titles, in the right order.
 
@@ -16,13 +16,21 @@ This tool does the same job transparently, and can repair the sessions the built
 
 ## Install
 
-Python 3.8 or newer, no dependencies.
+Python 3.9 or newer, no dependencies. With [uv](https://docs.astral.sh/uv/) you can run it without installing anything:
 
 ```bash
-pipx install git+https://github.com/Leeiio/claude-desktop-importer.git
+uvx claude-desktop-importer scan
 ```
 
-Or run it straight from a clone:
+Or install the command once:
+
+```bash
+uv tool install claude-desktop-importer     # or: pipx install claude-desktop-importer
+```
+
+Upgrade later with `uv tool upgrade claude-desktop-importer` (or `pipx upgrade claude-desktop-importer`); `uvx claude-desktop-importer@latest` always runs the newest release.
+
+To run from source instead:
 
 ```bash
 git clone https://github.com/Leeiio/claude-desktop-importer.git
@@ -32,7 +40,7 @@ python3 -m claude_desktop_importer scan
 
 ## Usage
 
-Every command only shows what it would do until you add `--apply`.
+The examples use the installed command; with uvx, put `uvx` in front (`uvx claude-desktop-importer import --apply`). Every command only shows what it would do until you add `--apply`.
 
 ```bash
 claude-desktop-importer scan             # which sessions are missing from the sidebar, and why some are skipped
@@ -112,8 +120,8 @@ It does not skip a project just because its folder is not marked trusted in `~/.
 python3 -m unittest discover -s tests -t .
 ```
 
-The tests build fake transcripts and sidebar folders in a temp directory; they never read your real data.
+The tests build fake transcripts and sidebar folders in a temp directory; they never read your real data. Releases are published to PyPI by GitHub Actions; see [RELEASING.md](https://github.com/Leeiio/claude-desktop-importer/blob/main/RELEASING.md).
 
 ## License
 
-[MIT](LICENSE). Not affiliated with or endorsed by Anthropic.
+[MIT](https://github.com/Leeiio/claude-desktop-importer/blob/main/LICENSE). Not affiliated with or endorsed by Anthropic.

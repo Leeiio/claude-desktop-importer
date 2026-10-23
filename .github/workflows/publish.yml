@@ -1,0 +1,51 @@
+name: Publish
+
+# Publishing a GitHub release tagged v<version> uploads that version to PyPI. Setup: RELEASING.md.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+      - name: Check the tag matches __version__
+        run: |
+          version=$(python -c "import claude_desktop_importer as m; print(m.__version__)")
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::Release tag $GITHUB_REF_NAME does not match __version__ $version (expected v$version)"
+            exit 1
+          fi
+      - run: python -m pip install build
+      - run: python -m build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  # Kept apart from the build so only this short job can mint a PyPI upload token.
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/claude-desktop-importer/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

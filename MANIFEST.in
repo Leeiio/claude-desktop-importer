@@ -1,0 +1,2 @@
+include README.zh-CN.md RELEASING.md
+recursive-include tests *.py
